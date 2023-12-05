@@ -4,7 +4,6 @@ public class PlayerInteractions : MonoBehaviour
 {
    void OnTriggerEnter(Collider other)
     {
-        Debug.Log("LIIS");
         TakeWeapon(other.gameObject);
     }
 

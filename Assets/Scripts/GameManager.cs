@@ -6,9 +6,14 @@ public class GameManager : MonoBehaviour
 
     public bool weaponOneIsTaked;
     public bool weaponTwoIsTaked;
+    public bool weaponTwoIsFired;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+   void Awake()
+   {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        
+   }
 }
