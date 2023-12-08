@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WeaponSwitch : MonoBehaviour
@@ -59,26 +60,48 @@ public class WeaponSwitch : MonoBehaviour
         }
         if (previousWeapon != selectedWeapon)
         {
-            SelectWeapon();
+            if (GameManager.Instance.weaponOneIsTaked)
+            {
+                SelectWeapon();
+                GameManager.Instance.openCloseBubble = selectedWeapon == 2;
+            }
+            else
+            {
+                SelectWeaponWhenFirstOneIsNotTaked();
+                GameManager.Instance.openCloseBubble = selectedWeapon == 1;
+            }
+            
         }
+       
     }
 
     private void SelectWeapon()
     {
         int i = 0;
-        foreach (Transform weapon in transform)
+        foreach (Transform child in transform)
         {
-            if (weapon.gameObject.layer == LayerMask.NameToLayer("Weapon"))
+            if (child.gameObject.layer == LayerMask.NameToLayer("Weapon"))
             {
-                if (selectedWeapon == i)
-                {
-                    weapon.gameObject.SetActive(true);
-                } else
-                {
-                    weapon.gameObject.SetActive(false);
-                }
+                child.gameObject.SetActive(selectedWeapon == i);
                 i++;
             }
+        }
+    }
+
+    private void SelectWeaponWhenFirstOneIsNotTaked() // TODO: - Encontrar otra manera de hacer esto, una manera más dínamica en el SelectWeapon
+    {
+        Transform[] childs = transform.Cast<Transform>().ToArray();
+        if (selectedWeapon == 0)
+        {
+            childs[0].gameObject.SetActive(true);
+            childs[1].gameObject.SetActive(false);
+            childs[2].gameObject.SetActive(false);
+        }
+        else
+        {
+            childs[0].gameObject.SetActive(false);
+            childs[1].gameObject.SetActive(false);
+            childs[2].gameObject.SetActive(true);
         }
     }
 }

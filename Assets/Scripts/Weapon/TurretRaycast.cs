@@ -15,10 +15,9 @@ public class TurretRaycast : MonoBehaviour
         {
             return;
         }
-        Debug.Log("ThrowLightning");
         float maxDistance = 30f;
         Ray ray = new(transform.position, transform.forward);
-        Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.green);
+        // Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.green);
         if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, whatToDetect, QueryTriggerInteraction.Ignore))
         {
             AttractObjects(hit);
@@ -27,6 +26,10 @@ public class TurretRaycast : MonoBehaviour
 
     private void AttractObjects(RaycastHit hit)
     {
-        hit.transform.position = new Vector3(transform.position.x + 1f, hit.transform.position.y);
+        if (!GameManager.Instance.bubbleIsShowed)
+        {
+            return;
+        }
+        hit.transform.position = new Vector3(transform.position.x + 0.3f, hit.transform.position.y);
     }
 }
